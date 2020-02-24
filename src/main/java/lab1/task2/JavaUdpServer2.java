@@ -23,11 +23,6 @@ public class JavaUdpServer2 {
 
                 System.out.println("Server has received message: " + msg);
                 System.out.println("Client's address: " + receivePacket.getAddress());
-
-                byte[] sendBuffer = "Server answering to client".getBytes();
-                DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, receivePacket.getSocketAddress());
-                socket.send(sendPacket);
-                System.out.println("Server has answered");
             }
         } catch (Exception e) {
             e.printStackTrace();
