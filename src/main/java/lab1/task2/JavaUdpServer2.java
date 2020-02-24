@@ -1,8 +1,10 @@
+package lab1.task2;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Arrays;
 
-public class JavaUdpServer {
+public class JavaUdpServer2 {
 
     public static void main(String[] args) {
         System.out.println("JAVA UDP SERVER");
