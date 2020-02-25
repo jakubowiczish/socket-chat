@@ -25,7 +25,9 @@ public class JavaUdpServer3 {
                 int msg = ByteBuffer.wrap(receiveBuffer).order(ByteOrder.LITTLE_ENDIAN).getInt();
 
                 System.out.println("Server has received message: " + msg);
-                System.out.println("Client's address: " + receivePacket.getAddress());
+                System.out.println("Client's address: "
+                        + receivePacket.getAddress() + ":"
+                        + receivePacket.getPort());
 
                 int sendMsg = msg + 1;
                 byte[] sendBuffer = BigInteger.valueOf(sendMsg).toByteArray();

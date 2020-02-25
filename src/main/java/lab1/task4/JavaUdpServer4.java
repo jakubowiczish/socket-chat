@@ -21,9 +21,17 @@ public class JavaUdpServer4 {
                 socket.receive(receivePacket);
 
                 String receivedMessage = new String(receiveBuffer);
-                System.out.println(detectLanguage(receivedMessage));
+                String detectedLanguage = detectLanguage(receivedMessage);
+                System.out.println("LANGUAGE: " + detectedLanguage);
                 System.out.println("Server has received message: " + receivedMessage);
-                System.out.println("Client's address: " + receivePacket.getAddress());
+                System.out.println("Client's address: "
+                        + receivePacket.getAddress() + ":"
+                        + receivePacket.getPort());
+
+                byte[] sendBuffer = ("PING " + detectedLanguage).getBytes();
+                DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, receivePacket.getSocketAddress());
+                socket.send(sendPacket);
+                System.out.println("Server has answered with: " + new String(sendBuffer));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,11 +40,11 @@ public class JavaUdpServer4 {
 
     private static String detectLanguage(String message) {
         if (message == null || message.length() < 3)
-            return "Could not detect language. Incorrect message received";
+            return "UNKNOWN";
         else if (message.charAt(1) == 'J')
-            return "Language recognized: JAVA";
+            return "JAVA";
         else if (message.charAt(1) == 'P')
-            return "Language recognized: PYTHON";
-        return "Language not recognized";
+            return "PYTHON";
+        return "UNKNOWN";
     }
 }

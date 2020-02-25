@@ -22,7 +22,9 @@ public class JavaUdpServer2 {
                 String msg = new String(receivePacket.getData());
 
                 System.out.println("Server has received message: " + msg);
-                System.out.println("Client's address: " + receivePacket.getAddress());
+                System.out.println("Client's address: "
+                        + receivePacket.getAddress() + ":"
+                        + receivePacket.getPort());
             }
         } catch (Exception e) {
             e.printStackTrace();
