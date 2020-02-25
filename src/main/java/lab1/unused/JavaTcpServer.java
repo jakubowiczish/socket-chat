@@ -1,4 +1,4 @@
-package lab1;
+package lab1.unused;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,11 +13,9 @@ public class JavaTcpServer {
 
         System.out.println("JAVA TCP SERVER");
         int portNumber = 12345;
-        ServerSocket serverSocket = null;
 
-        try {
+        try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
             // create socket
-            serverSocket = new ServerSocket(portNumber);
 
             while (true) {
 
@@ -37,10 +35,6 @@ public class JavaTcpServer {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (serverSocket != null) {
-                serverSocket.close();
-            }
         }
     }
 

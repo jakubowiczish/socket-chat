@@ -24,7 +24,9 @@ public class JavaUdpClient {
             DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
             socket.receive(receivePacket);
             System.out.println("Client has received message: " + new String(receiveBuffer));
-            System.out.println("Server's address: " + receivePacket.getAddress());
+            System.out.println("Server's address: "
+                    + receivePacket.getAddress() + ":"
+                    + receivePacket.getPort());
 
             Arrays.fill(receiveBuffer, (byte) 0);
         } catch (Exception e) {
