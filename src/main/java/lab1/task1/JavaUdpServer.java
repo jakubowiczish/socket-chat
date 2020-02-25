@@ -22,7 +22,9 @@ public class JavaUdpServer {
                 String msg = new String(receivePacket.getData());
 
                 System.out.println("Server has received message: " + msg);
-                System.out.println("Client's address: " + receivePacket.getAddress());
+                System.out.println("Client's address: "
+                        + receivePacket.getAddress() + ":"
+                        + receivePacket.getPort());
 
                 byte[] sendBuffer = "Server answering to client".getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, receivePacket.getSocketAddress());
