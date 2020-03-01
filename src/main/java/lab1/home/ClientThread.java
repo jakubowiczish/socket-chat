@@ -25,17 +25,18 @@ public class ClientThread extends Thread {
                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getSocket().getInputStream()));
                 String message = in.readLine();
                 if (message == null) continue;
+
                 System.out.println("Received message from " + client.getClientId() + ": " + message);
 
                 for (Client availableClient : clients) {
                     if (Objects.equals(client.getSocket(), availableClient.getSocket())) continue;
+
                     PrintWriter out = new PrintWriter(availableClient.getSocket().getOutputStream(), true);
                     out.println("Client: " + client.getClientId() + " has sent message: " + message);
                 }
             }
 
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             System.out.println("Client " + client.getClientId() + " disconnected");
         }
     }

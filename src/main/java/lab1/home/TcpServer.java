@@ -22,10 +22,10 @@ public class TcpServer {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 clients.add(new Client(clients.size(), clientSocket));
-                executorService.execute(new ClientThread(new Client(clients.size(), clientSocket), clients));
+                executorService.submit(new ClientThread(new Client(clients.size(), clientSocket), clients));
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Server error");
         }
     }
 
