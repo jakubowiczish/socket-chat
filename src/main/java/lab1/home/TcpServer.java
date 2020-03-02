@@ -21,8 +21,9 @@ public class TcpServer {
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                clients.add(new Client(clients.size(), clientSocket));
-                executorService.submit(new ClientThread(new Client(clients.size(), clientSocket), clients));
+                Client client = new Client(clients.size(), clientSocket);
+                clients.add(client);
+                executorService.submit(new ClientThread(client, clients));
             }
         } catch (IOException e) {
             System.out.println("Server error");

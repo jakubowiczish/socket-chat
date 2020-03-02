@@ -35,7 +35,6 @@ public class ClientThread extends Thread {
                     out.println("Client: " + client.getClientId() + " has sent message: " + message);
                 }
             }
-
         } catch (IOException e) {
             System.out.println("Client " + client.getClientId() + " disconnected");
         }
