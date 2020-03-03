@@ -1,13 +1,10 @@
-package lab1.task3;
+package lab1.laboratory_tasks.task1;
 
-import java.math.BigInteger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.Arrays;
 
-public class JavaUdpServer3 {
+public class JavaUdpServer {
 
     public static void main(String[] args) {
         System.out.println("JAVA UDP SERVER");
@@ -22,18 +19,17 @@ public class JavaUdpServer3 {
 
                 DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
                 socket.receive(receivePacket);
-                int msg = ByteBuffer.wrap(receiveBuffer).order(ByteOrder.LITTLE_ENDIAN).getInt();
+                String msg = new String(receivePacket.getData());
 
                 System.out.println("Server has received message: " + msg);
                 System.out.println("Client's address: "
                         + receivePacket.getAddress() + ":"
                         + receivePacket.getPort());
 
-                int sendMsg = msg + 1;
-                byte[] sendBuffer = BigInteger.valueOf(sendMsg).toByteArray();
+                byte[] sendBuffer = "Server answering to client".getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, receivePacket.getSocketAddress());
                 socket.send(sendPacket);
-                System.out.println("Server has answered with: " + sendMsg);
+                System.out.println("Server has answered");
             }
         } catch (Exception e) {
             e.printStackTrace();

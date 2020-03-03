@@ -1,10 +1,10 @@
-package lab1.task1;
+package lab1.laboratory_tasks.task4;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Arrays;
 
-public class JavaUdpServer {
+public class JavaUdpServer4 {
 
     public static void main(String[] args) {
         System.out.println("JAVA UDP SERVER");
@@ -19,20 +19,32 @@ public class JavaUdpServer {
 
                 DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
                 socket.receive(receivePacket);
-                String msg = new String(receivePacket.getData());
 
-                System.out.println("Server has received message: " + msg);
+                String receivedMessage = new String(receiveBuffer);
+                String detectedLanguage = detectLanguage(receivedMessage);
+                System.out.println("LANGUAGE: " + detectedLanguage);
+                System.out.println("Server has received message: " + receivedMessage);
                 System.out.println("Client's address: "
                         + receivePacket.getAddress() + ":"
                         + receivePacket.getPort());
 
-                byte[] sendBuffer = "Server answering to client".getBytes();
+                byte[] sendBuffer = ("PING " + detectedLanguage).getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, receivePacket.getSocketAddress());
                 socket.send(sendPacket);
-                System.out.println("Server has answered");
+                System.out.println("Server has answered with: " + new String(sendBuffer));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static String detectLanguage(String message) {
+        if (message == null || message.length() < 3)
+            return "UNKNOWN";
+        else if (message.charAt(1) == 'J')
+            return "JAVA";
+        else if (message.charAt(1) == 'P')
+            return "PYTHON";
+        return "UNKNOWN";
     }
 }

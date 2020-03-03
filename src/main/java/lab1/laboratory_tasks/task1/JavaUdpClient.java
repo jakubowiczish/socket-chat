@@ -1,10 +1,11 @@
-package lab1.task4;
+package lab1.laboratory_tasks.task1;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Arrays;
 
-public class JavaUdpClient4 {
+public class JavaUdpClient {
 
     public static void main(String[] args) throws Exception {
         System.out.println("JAVA UDP CLIENT");
@@ -14,7 +15,7 @@ public class JavaUdpClient4 {
         try (DatagramSocket socket = new DatagramSocket()) {
             InetAddress address = InetAddress.getByName("localhost");
 
-            byte[] sendBuffer = "*J* Ping Java Udp".getBytes();
+            byte[] sendBuffer = "Ping Java Udp".getBytes();
             DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, address, portNumber);
             socket.send(sendPacket);
             System.out.println("Client has send packet");
@@ -27,6 +28,7 @@ public class JavaUdpClient4 {
                     + receivePacket.getAddress() + ":"
                     + receivePacket.getPort());
 
+            Arrays.fill(receiveBuffer, (byte) 0);
         } catch (Exception e) {
             e.printStackTrace();
         }

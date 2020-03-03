@@ -1,4 +1,4 @@
-package lab1.unused;
+package lab1.laboratory_tasks.unused;
 
 import java.io.BufferedReader;
 import java.io.IOException;

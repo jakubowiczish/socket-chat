@@ -1,0 +1,62 @@
+package lab1.home_tasks;
+
+import lombok.AllArgsConstructor;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
+
+import static lab1.home_tasks.MessageTypeTag.TCP;
+
+@AllArgsConstructor
+public class TcpClientThread implements Runnable, Sender {
+
+    private Client client;
+    private List<Client> clients;
+
+    @Override
+    public void run() {
+        try {
+            System.out.println("Client " + client.getClientId() + " has connected");
+
+            while (true) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(client.getSocket().getInputStream()));
+                String message = in.readLine();
+                if (message == null) continue;
+
+                System.out.println(TCP.getName() + client.getClientIdTag() + message);
+                send(message);
+            }
+        } catch (IOException e) {
+            System.out.println("Client " + client.getClientId() + " disconnected");
+        }
+    }
+
+    @Override
+    public void send(String message) {
+        clients.stream()
+                .filter(this::isNotMyself)
+                .forEach(sendMessage(message));
+    }
+
+    private Consumer<Client> sendMessage(String message) {
+        return client -> {
+            PrintWriter out;
+            try {
+                out = new PrintWriter(client.getSocket().getOutputStream(), true);
+            } catch (IOException ex) {
+                System.out.println("Problem with getting output stream from ");
+                return;
+            }
+            out.println(this.client.getClientIdTag() + message);
+        };
+    }
+
+    private boolean isNotMyself(Client client) {
+        return !Objects.equals(this.client.getSocket(), client.getSocket());
+    }
+}
