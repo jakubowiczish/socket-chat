@@ -1,18 +1,19 @@
 package lab1.home_tasks;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.net.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static lab1.home_tasks.MessageTypeTag.MULTICAST;
 import static lab1.home_tasks.TcpServer.PORT_NUMBER;
 import static lab1.home_tasks.UdpClientThread.BUFFER_SIZE;
 
 public class TcpClient {
 
     private static final String HOST_NAME = "localhost";
+    private static final String MULTICAST_ADDRESS = "224.0.0.1";
+    private static final int MULTICAST_PORT_NUMBER = 12346;
 
     public static void main(String[] args) throws IOException {
         System.out.println("JAVA TCP CLIENT");
@@ -20,29 +21,27 @@ public class TcpClient {
         ExecutorService executorService = Executors.newFixedThreadPool(3);
 
         try (Socket tcpSocket = new Socket(HOST_NAME, PORT_NUMBER);
-             DatagramSocket udpSocket = new DatagramSocket(tcpSocket.getLocalPort())) {
-//            BufferedReader socketInput = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
+             DatagramSocket udpSocket = new DatagramSocket(tcpSocket.getLocalPort());
+             MulticastSocket multicastSocket = new MulticastSocket(MULTICAST_PORT_NUMBER)) {
 
-            executorService.execute(new ClientsMessageThread(tcpSocket, udpSocket, InetAddress.getByName(HOST_NAME), PORT_NUMBER));
+            InetAddress groupAddress = InetAddress.getByName(MULTICAST_ADDRESS);
+
+            executorService.execute(new ClientsMessageThread(tcpSocket,
+                    udpSocket,
+                    InetAddress.getByName(HOST_NAME),
+                    groupAddress,
+                    PORT_NUMBER, MULTICAST_PORT_NUMBER));
+
             executorService.execute(new UdpClientMessageReader(udpSocket));
             executorService.execute(new TcpClientMessageReader(tcpSocket));
 
             byte[] receiveBuffer = new byte[BUFFER_SIZE];
-
+            multicastSocket.joinGroup(groupAddress);
             while (true) {
-//                if (socketInput.ready()) {
-//                    System.out.println(TCP.getName() + socketInput.readLine());
-//                }
+                DatagramPacket packet = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+                multicastSocket.receive(packet);
+                System.out.println(MULTICAST.getName() + new String(packet.getData()));
             }
-
-//                if (udpSocket.isConnected()) {
-//                    Arrays.fill(receiveBuffer, (byte) 0);
-//                    DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-//                    udpSocket.receive(receivePacket);
-//                    String message = new String(receivePacket.getData());
-//                    System.out.println(UDP.getName() + message);
-//                }
-//            }
 
         } catch (Exception e) {
             e.printStackTrace();

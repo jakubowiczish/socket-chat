@@ -12,13 +12,16 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 
+
 @AllArgsConstructor
 public class ClientsMessageThread implements Runnable {
 
     private Socket tcpSocket;
     private DatagramSocket udpSocket;
-    private InetAddress address;
+    private InetAddress udpAddress;
+    private InetAddress multicastAddress;
     private int port;
+    private int multicastPort;
 
     @SneakyThrows
     @Override
@@ -47,6 +50,10 @@ public class ClientsMessageThread implements Runnable {
                 sendUdpMessage(message);
                 return;
             }
+            case 'M': {
+                sendMulticastMessage(message);
+                return;
+            }
             default:
                 System.out.println("INCORRECT MESSAGE RECEIVED");
         }
@@ -64,10 +71,19 @@ public class ClientsMessageThread implements Runnable {
         DatagramPacket datagramPacket = new DatagramPacket(
                 message.getBytes(),
                 message.getBytes().length,
-                address,
+                udpAddress,
                 port
         );
 
         udpSocket.send(datagramPacket);
+    }
+
+    @SneakyThrows
+    private void sendMulticastMessage(String message) {
+        DatagramSocket datagramSocketForMulticast = new DatagramSocket();
+        byte[] buffer = message.getBytes();
+
+        DatagramPacket multicastPacket = new DatagramPacket(buffer, buffer.length, multicastAddress, multicastPort);
+        datagramSocketForMulticast.send(multicastPacket);
     }
 }

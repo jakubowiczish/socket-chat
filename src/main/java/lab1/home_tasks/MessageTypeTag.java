@@ -8,7 +8,8 @@ import lombok.Getter;
 public enum MessageTypeTag {
 
     TCP("<TCP>: "),
-    UDP("<UDP>: ");
+    UDP("<UDP>: "),
+    MULTICAST("<MULTICAST>: ");
 
     private String name;
 }
