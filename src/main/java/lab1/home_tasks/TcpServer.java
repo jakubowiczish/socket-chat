@@ -15,7 +15,7 @@ public class TcpServer {
     private static final int NUMBER_OF_THREADS = 16;
 
     public static void main(String[] args) throws IOException {
-        System.out.println("JAVA TCP SERVER");
+        System.out.println("Server has started");
 
         List<Client> clients = new LinkedList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS * 2);
@@ -35,5 +35,4 @@ public class TcpServer {
             System.out.println("Server error");
         }
     }
-
 }

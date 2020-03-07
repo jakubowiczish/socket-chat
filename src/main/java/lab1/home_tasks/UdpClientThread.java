@@ -36,28 +36,17 @@ public class UdpClientThread implements Runnable, Sender {
             Arrays.fill(receiveBuffer, (byte) 0);
             DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
             udpSocket.receive(receivePacket);
+
             String message = new String(receivePacket.getData());
-
-//            System.out.println(UDP.getName() + client.getClientIdTag() + message);
-
             clientsAddresses.add((InetSocketAddress) receivePacket.getSocketAddress());
-
             receivedPacketAddress = receivePacket.getSocketAddress();
-
             System.out.println(clientsAddresses.size());
-
             send(message);
         }
     }
 
     @Override
     public void send(String message) {
-        System.out.println(clientsAddresses.size());
-
-        System.out.println("CHUJ");
-
-        System.out.println(clientsAddresses.stream().filter(this::isNotMyself).count());
-
         clientsAddresses.stream()
                 .filter(this::isNotMyself)
                 .forEach(sendMessage(message));

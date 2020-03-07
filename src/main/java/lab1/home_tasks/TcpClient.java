@@ -16,7 +16,7 @@ public class TcpClient {
     private static final int MULTICAST_PORT_NUMBER = 12346;
 
     public static void main(String[] args) throws IOException {
-        System.out.println("JAVA TCP CLIENT");
+        System.out.println("Client has started");
 
         ExecutorService executorService = Executors.newFixedThreadPool(3);
 
@@ -26,7 +26,7 @@ public class TcpClient {
 
             InetAddress groupAddress = InetAddress.getByName(MULTICAST_ADDRESS);
 
-            executorService.execute(new ClientsMessageThread(tcpSocket,
+            executorService.execute(new ClientMessageSendingThread(tcpSocket,
                     udpSocket,
                     InetAddress.getByName(HOST_NAME),
                     groupAddress,
@@ -44,7 +44,7 @@ public class TcpClient {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Client erro");
         }
     }
 

@@ -14,7 +14,7 @@ import java.net.Socket;
 
 
 @AllArgsConstructor
-public class ClientsMessageThread implements Runnable {
+public class ClientMessageSendingThread implements Runnable {
 
     private Socket tcpSocket;
     private DatagramSocket udpSocket;
@@ -80,10 +80,16 @@ public class ClientsMessageThread implements Runnable {
 
     @SneakyThrows
     private void sendMulticastMessage(String message) {
-        DatagramSocket datagramSocketForMulticast = new DatagramSocket();
+        DatagramSocket multicastDatagramSocket = new DatagramSocket();
         byte[] buffer = message.getBytes();
 
-        DatagramPacket multicastPacket = new DatagramPacket(buffer, buffer.length, multicastAddress, multicastPort);
-        datagramSocketForMulticast.send(multicastPacket);
+        DatagramPacket multicastPacket = new DatagramPacket(
+                buffer,
+                buffer.length,
+                multicastAddress,
+                multicastPort
+        );
+
+        multicastDatagramSocket.send(multicastPacket);
     }
 }
