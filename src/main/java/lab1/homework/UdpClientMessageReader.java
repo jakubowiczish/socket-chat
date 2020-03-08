@@ -1,4 +1,4 @@
-package lab1.home_tasks;
+package lab1.homework;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -7,8 +7,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Arrays;
 
-import static lab1.home_tasks.MessageTypeTag.UDP;
-import static lab1.home_tasks.UdpClientThread.BUFFER_SIZE;
+import static lab1.homework.MessageTypeTag.UDP;
+import static lab1.homework.UdpClientThread.BUFFER_SIZE;
 
 @AllArgsConstructor
 public class UdpClientMessageReader implements Runnable {

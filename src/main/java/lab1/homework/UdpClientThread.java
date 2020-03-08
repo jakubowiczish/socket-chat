@@ -1,4 +1,4 @@
-package lab1.home_tasks;
+package lab1.homework;
 
 import lombok.SneakyThrows;
 
@@ -12,9 +12,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import static lab1.home_tasks.MessageTypeTag.NAME_TAG;
-import static lab1.home_tasks.MessageTypeTag.UDP;
-import static lab1.home_tasks.Utils.formatMessage;
+import static lab1.homework.MessageTypeTag.NAME_TAG;
+import static lab1.homework.MessageTypeTag.UDP;
+import static lab1.homework.Utils.formatMessage;
 
 public class UdpClientThread implements Runnable, Sender {
 

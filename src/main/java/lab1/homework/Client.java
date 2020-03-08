@@ -1,4 +1,4 @@
-package lab1.home_tasks;
+package lab1.homework;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

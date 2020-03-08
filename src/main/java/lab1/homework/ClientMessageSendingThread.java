@@ -1,4 +1,4 @@
-package lab1.home_tasks;
+package lab1.homework;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -12,7 +12,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import static lab1.home_tasks.MessageTypeTag.NAME_TAG;
+import static lab1.homework.MessageTypeTag.NAME_TAG;
 
 
 @AllArgsConstructor

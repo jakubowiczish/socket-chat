@@ -1,4 +1,4 @@
-package lab1.home_tasks;
+package lab1.homework;
 
 import java.io.IOException;
 import java.net.DatagramSocket;

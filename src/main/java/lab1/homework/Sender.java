@@ -1,4 +1,4 @@
-package lab1.home_tasks;
+package lab1.homework;
 
 public interface Sender {
 

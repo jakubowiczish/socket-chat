@@ -1,10 +1,10 @@
-package lab1.laboratory_tasks.task1;
+package lab1.laboratory.task2;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Arrays;
 
-public class JavaUdpServer {
+public class JavaUdpServer2 {
 
     public static void main(String[] args) {
         System.out.println("JAVA UDP SERVER");
@@ -25,11 +25,6 @@ public class JavaUdpServer {
                 System.out.println("Client's address: "
                         + receivePacket.getAddress() + ":"
                         + receivePacket.getPort());
-
-                byte[] sendBuffer = "Server answering to client".getBytes();
-                DatagramPacket sendPacket = new DatagramPacket(sendBuffer, sendBuffer.length, receivePacket.getSocketAddress());
-                socket.send(sendPacket);
-                System.out.println("Server has answered");
             }
         } catch (Exception e) {
             e.printStackTrace();
