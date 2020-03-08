@@ -77,7 +77,7 @@ public class ClientMessageSendingThread implements Runnable {
     @SneakyThrows
     private void sendMulticastMessage(String message) {
         DatagramSocket multicastDatagramSocket = new DatagramSocket();
-        DatagramPacket multicastPacket = createDatagramPacket(message, multicastAddress, multicastPort);
+        DatagramPacket multicastPacket = createDatagramPacket(message.substring(1), multicastAddress, multicastPort);
         multicastDatagramSocket.send(multicastPacket);
     }
 
