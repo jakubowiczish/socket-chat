@@ -9,7 +9,8 @@ public enum MessageTypeTag {
 
     TCP("<TCP>: "),
     UDP("<UDP>: "),
-    MULTICAST("<MULTICAST>: ");
+    MULTICAST("<MULTICAST>: "),
+    NAME_TAG("N: ");
 
     private String name;
 }

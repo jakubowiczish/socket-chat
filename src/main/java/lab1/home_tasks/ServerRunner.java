@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TcpServer {
+public class ServerRunner {
 
     public static final int PORT_NUMBER = 12345;
     private static final int NUMBER_OF_THREADS = 16;
@@ -27,7 +27,7 @@ public class TcpServer {
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                Client client = new Client(clients.size(), clientSocket);
+                Client client = new Client(clients.size(), clientSocket, "DEFAULT USERNAME");
                 clients.add(client);
                 executorService.execute(new TcpClientThread(client, clients));
             }

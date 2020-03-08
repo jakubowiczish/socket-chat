@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static lab1.home_tasks.MessageTypeTag.NAME_TAG;
 import static lab1.home_tasks.MessageTypeTag.TCP;
 
 @AllArgsConstructor
@@ -27,8 +28,12 @@ public class TcpClientThread implements Runnable, Sender {
                 BufferedReader in = new BufferedReader(new InputStreamReader(client.getSocket().getInputStream()));
                 String message = in.readLine();
                 if (message == null) continue;
+                if (message.startsWith(NAME_TAG.getName())) {
+                    updateClientsName(message);
+                    continue;
+                }
 
-                System.out.println(TCP.getName() + client.getClientIdTag() + message);
+                System.out.println(TCP.getName() + client.getNameTag() + message);
                 send(message);
             }
         } catch (IOException e) {
@@ -44,6 +49,7 @@ public class TcpClientThread implements Runnable, Sender {
     }
 
     private Consumer<Client> sendMessage(String message) {
+        final String finalMessage = message.substring(1).trim();
         return client -> {
             PrintWriter out;
             try {
@@ -52,11 +58,15 @@ public class TcpClientThread implements Runnable, Sender {
                 System.out.println("Problem with getting output stream from ");
                 return;
             }
-            out.println(this.client.getClientIdTag() + message);
+            out.println(this.client.getNameTag() + finalMessage);
         };
     }
 
     private boolean isNotMyself(Client client) {
         return !Objects.equals(this.client.getSocket(), client.getSocket());
+    }
+
+    private void updateClientsName(String message) {
+        client.setName(message.substring(NAME_TAG.getName().length()));
     }
 }

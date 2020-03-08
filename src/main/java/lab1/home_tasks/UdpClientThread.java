@@ -5,21 +5,23 @@ import lombok.SneakyThrows;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.Consumer;
+
+import static lab1.home_tasks.MessageTypeTag.NAME_TAG;
+import static lab1.home_tasks.MessageTypeTag.UDP;
+import static lab1.home_tasks.Utils.formatMessage;
 
 public class UdpClientThread implements Runnable, Sender {
 
     public static final int BUFFER_SIZE = 1337;
 
     private DatagramSocket udpSocket;
-
-    private Set<InetSocketAddress> clientsAddresses;
+    private Map<SocketAddress, String> clientsMap;
     private SocketAddress receivedPacketAddress;
 
     public UdpClientThread(DatagramSocket udpSocket) {
@@ -29,8 +31,8 @@ public class UdpClientThread implements Runnable, Sender {
     @SneakyThrows
     @Override
     public void run() {
+        clientsMap = new LinkedHashMap<>();
         byte[] receiveBuffer = new byte[BUFFER_SIZE];
-        clientsAddresses = new LinkedHashSet<>();
 
         while (true) {
             Arrays.fill(receiveBuffer, (byte) 0);
@@ -38,27 +40,37 @@ public class UdpClientThread implements Runnable, Sender {
             udpSocket.receive(receivePacket);
 
             String message = new String(receivePacket.getData());
-            clientsAddresses.add((InetSocketAddress) receivePacket.getSocketAddress());
+            SocketAddress address = receivePacket.getSocketAddress();
+
+            if (message.startsWith(NAME_TAG.getName())) {
+                updateClientsName(address, message);
+                continue;
+            }
+
             receivedPacketAddress = receivePacket.getSocketAddress();
-            System.out.println(clientsAddresses.size());
-            send(message);
+            String name = clientsMap.get(receivedPacketAddress);
+
+            String messageToSend = formatMessage("[" + name + "]: " + message.substring(1));
+            System.out.println(UDP.getName() + messageToSend);
+            send(messageToSend);
         }
     }
 
     @Override
     public void send(String message) {
-        clientsAddresses.stream()
+        clientsMap.keySet().stream()
                 .filter(this::isNotMyself)
                 .forEach(sendMessage(message));
     }
 
-    private Consumer<InetSocketAddress> sendMessage(String message) {
-//        String finalMessage = client.getClientIdTag() + message;
-        String finalMessage = message;
+    private Consumer<SocketAddress> sendMessage(String message) {
         return socketAddress -> {
             try {
-//                System.out.println("DEBUGGING  " + message + client.getClientId() + socketAddress.getAddress() + socketAddress.getPort());
-                DatagramPacket datagramPacket = new DatagramPacket(finalMessage.getBytes(), finalMessage.getBytes().length, socketAddress);
+                DatagramPacket datagramPacket = new DatagramPacket(
+                        message.getBytes(),
+                        message.getBytes().length,
+                        socketAddress);
+
                 udpSocket.send(datagramPacket);
             } catch (IOException e) {
                 System.out.println("Problem with sending packet using UDP socket");
@@ -68,5 +80,10 @@ public class UdpClientThread implements Runnable, Sender {
 
     private boolean isNotMyself(SocketAddress address) {
         return !Objects.equals(address, receivedPacketAddress);
+    }
+
+    private void updateClientsName(SocketAddress address, String message) {
+        clientsMap.put(address,
+                message.substring(NAME_TAG.getName().length()));
     }
 }

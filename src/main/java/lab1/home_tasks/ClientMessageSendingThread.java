@@ -12,6 +12,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import static lab1.home_tasks.MessageTypeTag.NAME_TAG;
+
 
 @AllArgsConstructor
 public class ClientMessageSendingThread implements Runnable {
@@ -26,11 +28,12 @@ public class ClientMessageSendingThread implements Runnable {
     @SneakyThrows
     @Override
     public void run() {
-        BufferedReader clientsMessage = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader clientsMessageReader = new BufferedReader(new InputStreamReader(System.in));
+        chooseNickname(clientsMessageReader);
 
         while (true) {
-            if (clientsMessage.ready())
-                send(clientsMessage.readLine());
+            if (clientsMessageReader.ready())
+                send(clientsMessageReader.readLine());
         }
     }
 
@@ -62,34 +65,39 @@ public class ClientMessageSendingThread implements Runnable {
 
     @SneakyThrows
     private void sendTcpMessage(String message) {
-        PrintWriter socketOutput = new PrintWriter(tcpSocket.getOutputStream(), true);
-        socketOutput.println(message);
+        createPrintWriter(tcpSocket).println(message);
     }
 
     @SneakyThrows
     private void sendUdpMessage(String message) {
-        DatagramPacket datagramPacket = new DatagramPacket(
-                message.getBytes(),
-                message.getBytes().length,
-                udpAddress,
-                port
-        );
-
+        DatagramPacket datagramPacket = createDatagramPacket(message, udpAddress, port);
         udpSocket.send(datagramPacket);
     }
 
     @SneakyThrows
     private void sendMulticastMessage(String message) {
         DatagramSocket multicastDatagramSocket = new DatagramSocket();
-        byte[] buffer = message.getBytes();
-
-        DatagramPacket multicastPacket = new DatagramPacket(
-                buffer,
-                buffer.length,
-                multicastAddress,
-                multicastPort
-        );
-
+        DatagramPacket multicastPacket = createDatagramPacket(message, multicastAddress, multicastPort);
         multicastDatagramSocket.send(multicastPacket);
+    }
+
+    private DatagramPacket createDatagramPacket(String message, InetAddress address, int port) {
+        return new DatagramPacket(message.getBytes(), message.getBytes().length, address, port);
+    }
+
+    @SneakyThrows
+    private PrintWriter createPrintWriter(Socket socket) {
+        return new PrintWriter(socket.getOutputStream(), true);
+    }
+
+    @SneakyThrows
+    private void chooseNickname(BufferedReader reader) {
+        System.out.print("Choose your nickname: ");
+        String name = reader.readLine();
+        System.out.println("Your name is: " + name);
+
+        String nameChoiceMessage = NAME_TAG.getName() + name;
+        createPrintWriter(tcpSocket).println(nameChoiceMessage);
+        udpSocket.send(createDatagramPacket(nameChoiceMessage, udpAddress, port));
     }
 }

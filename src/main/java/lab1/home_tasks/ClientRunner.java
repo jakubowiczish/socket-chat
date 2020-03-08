@@ -6,10 +6,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static lab1.home_tasks.MessageTypeTag.MULTICAST;
-import static lab1.home_tasks.TcpServer.PORT_NUMBER;
+import static lab1.home_tasks.ServerRunner.PORT_NUMBER;
 import static lab1.home_tasks.UdpClientThread.BUFFER_SIZE;
 
-public class TcpClient {
+public class ClientRunner {
 
     private static final String HOST_NAME = "localhost";
     private static final String MULTICAST_ADDRESS = "224.0.0.1";
@@ -44,7 +44,7 @@ public class TcpClient {
             }
 
         } catch (Exception e) {
-            System.out.println("Client erro");
+            System.out.println("Client error");
         }
     }
 
