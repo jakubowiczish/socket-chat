@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,7 +17,7 @@ public class ServerRunner {
     public static void main(String[] args) throws IOException {
         System.out.println("Server has started");
 
-        List<Client> clients = new LinkedList<>();
+        List<Client> clients = new CopyOnWriteArrayList<>();
         ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS * 2);
 
         try (ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
