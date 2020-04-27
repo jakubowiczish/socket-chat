@@ -1,4 +1,4 @@
-package lab1.laboratory.task3;
+package socket_chat.laboratory.task3;
 
 import java.math.BigInteger;
 import java.net.DatagramPacket;

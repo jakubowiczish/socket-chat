@@ -1,13 +1,13 @@
-package lab1.homework;
+package socket_chat.homework;
 
 import java.io.IOException;
 import java.net.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static lab1.homework.MessageTypeTag.MULTICAST;
-import static lab1.homework.ServerRunner.PORT_NUMBER;
-import static lab1.homework.UdpClientThread.BUFFER_SIZE;
+import static socket_chat.homework.MessageTypeTag.MULTICAST;
+import static socket_chat.homework.ServerRunner.PORT_NUMBER;
+import static socket_chat.homework.UdpClientThread.BUFFER_SIZE;
 
 public class ClientRunner {
 

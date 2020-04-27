@@ -1,4 +1,4 @@
-package lab1.homework;
+package socket_chat.homework;
 
 public interface Sender {
 

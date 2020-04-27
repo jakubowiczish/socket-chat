@@ -1,4 +1,4 @@
-package lab1.homework;
+package socket_chat.homework;
 
 import lombok.SneakyThrows;
 
@@ -12,9 +12,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import static lab1.homework.MessageTypeTag.NAME_TAG;
-import static lab1.homework.MessageTypeTag.UDP;
-import static lab1.homework.Utils.formatMessage;
+import static socket_chat.homework.MessageTypeTag.NAME_TAG;
+import static socket_chat.homework.MessageTypeTag.UDP;
+import static socket_chat.homework.Utils.formatMessage;
 
 public class UdpClientThread implements Runnable, Sender {
 

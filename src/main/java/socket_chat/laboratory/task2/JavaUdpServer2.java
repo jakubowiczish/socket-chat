@@ -1,4 +1,4 @@
-package lab1.laboratory.task2;
+package socket_chat.laboratory.task2;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

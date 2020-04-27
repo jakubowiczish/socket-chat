@@ -1,4 +1,4 @@
-package lab1.laboratory.unused;
+package socket_chat.laboratory.unused;
 
 import java.io.BufferedReader;
 import java.io.IOException;

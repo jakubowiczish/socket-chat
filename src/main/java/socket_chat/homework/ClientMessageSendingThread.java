@@ -1,4 +1,4 @@
-package lab1.homework;
+package socket_chat.homework;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -12,7 +12,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import static lab1.homework.MessageTypeTag.NAME_TAG;
+import static socket_chat.homework.MessageTypeTag.NAME_TAG;
 
 
 @AllArgsConstructor

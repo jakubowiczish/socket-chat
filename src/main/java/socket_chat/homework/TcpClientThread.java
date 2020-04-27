@@ -1,4 +1,4 @@
-package lab1.homework;
+package socket_chat.homework;
 
 import lombok.AllArgsConstructor;
 
@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import static lab1.homework.MessageTypeTag.NAME_TAG;
-import static lab1.homework.MessageTypeTag.TCP;
+import static socket_chat.homework.MessageTypeTag.NAME_TAG;
+import static socket_chat.homework.MessageTypeTag.TCP;
 
 @AllArgsConstructor
 public class TcpClientThread implements Runnable, Sender {
